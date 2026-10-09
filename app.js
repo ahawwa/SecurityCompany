@@ -3,6 +3,7 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const config = window.SITE_CONFIG || {};
+  const portable = window.EHC_PORTABLE === true;
   const resources = window.SECURITY_RESOURCES || [];
   const arabic = {};
   $$('[data-i18n]').forEach(el => { arabic[el.dataset.i18n] = el.innerHTML.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>/g, ''); });
@@ -163,7 +164,7 @@
       const arrow = element('span', '', '↗'); arrow.setAttribute('aria-hidden', 'true');
       putText(arrow, '↗');
       button.append(element('span', '', text('readGuide')), arrow);
-      const heading = element('h3'); const guideLink = element('a', '', content.title); guideLink.href = `guides/${language}/${item.id}/`; heading.append(guideLink);
+      const heading = element('h3'); const guideLink = element('a', '', content.title); guideLink.href = portable ? `#guide/${item.id}` : `guides/${language}/${item.id}/`; heading.append(guideLink);
       body.append(meta, heading, element('p', '', content.description), button);
       card.append(cover, body); grid.append(card);
     });
@@ -193,7 +194,7 @@
     const links = element('div', 'article-source-links');
     (article.sources || []).forEach(source => { const link = element('a', '', source.label); link.href = source.url; link.target = '_blank'; link.rel = 'noopener noreferrer'; links.append(link); });
     footer.append(links, element('p', '', text('articleNote')));
-    const fullGuide = element('a', 'full-guide-link', text('fullGuide')); fullGuide.href = `guides/${language}/${item.id}/`; footer.append(fullGuide);
+    if (!portable) { const fullGuide = element('a', 'full-guide-link', text('fullGuide')); fullGuide.href = `guides/${language}/${item.id}/`; footer.append(fullGuide); }
     if (item.category === 'business') {
       const cta = element('button', 'button', text('articleCta')); cta.type = 'button';
       cta.addEventListener('click', () => { $('#resource-dialog').close(); chooseService(item.id.includes('iso') ? 'iso' : item.id.includes('soc') ? 'soc' : 'awareness'); });

@@ -48,6 +48,15 @@ node scripts/generate-guides.mjs --check
 
 ## Deploy alongside the EHC website on Hostinger
 
+An upload-ready ZIP is available at `downloads/hostinger-site.zip`. Extract it into the destination directory; do not leave the ZIP unextracted. `downloads/preview.html` is a self-contained preview with embedded CSS, fonts, and JavaScript. Download that HTML file and open it in a browser to inspect the design independently of companion files. It is not a published website URL.
+
+Rebuild and check these downloads after editing the website:
+
+```sh
+node scripts/build-downloads.mjs
+node scripts/build-downloads.mjs --check
+```
+
 1. Back up the existing website through Hostinger before uploading.
 2. Create a new directory such as `public_html/cybersecurity`. Keep the existing EHC homepage and any WordPress files intact.
 3. Upload `index.html`, `styles.css`, `app.js`, `site-config.js`, `resources.js`, `assets/`, and `guides/` into that directory. Preserve their relative paths. The scripts and README do not need to be uploaded.
@@ -55,6 +64,12 @@ node scripts/generate-guides.mjs --check
 5. Check Arabic/English switching, a standalone guide, the service finder, and the configured enquiry workflow on the deployed site.
 
 The repository upload does not deploy to Hostinger. No Hostinger account, DNS, or EHC production files have been changed.
+
+## Publish a real GitHub Pages preview
+
+Pushing files to GitHub is not the same as publishing a website. To enable publishing in this repository, an administrator can open the repository's **Settings → Pages**, choose **Deploy from a branch**, select **main** and **/(root)**, and save. The `.nojekyll` file makes GitHub serve the static files directly. Wait for a successful Pages deployment, then use the website URL that GitHub reports.
+
+If those settings are unavailable, repository administration access or a compatible account plan is required. No Pages deployment is claimed until it has actually succeeded. Third-party preview URLs are not a substitute for confirming deployment.
 
 ## Before public launch
 
